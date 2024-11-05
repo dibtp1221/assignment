@@ -28,7 +28,7 @@ public class AdminApplication {
 	}
 
 	@Bean
-	@Profile("admin-local") // 운영, qa, 개발, 로컬 따로 처리 가능함.
+	@Profile("docker-admin") // 운영, qa, 개발, 로컬 따로 처리 가능함.
 	public TestDataInit realDataInit(ItemRepository itemRepository,
                                      BrandJpaRepository brandRepository,
                                      CategoryJpaRepository categoryRepository,

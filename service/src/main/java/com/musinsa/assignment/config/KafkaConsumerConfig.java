@@ -19,7 +19,7 @@ public class KafkaConsumerConfig {
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9093");  // 보통 9092 이지만, h2 db가 9092여서 29092으로 변경
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9093");  // 보통 9092 이지만, h2 db가 9092여서 29092으로 변경
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_1");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);

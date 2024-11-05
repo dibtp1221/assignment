@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  h2:
+    image: oscarfonts/h2:2.1.210
+    container_name: h2
+    environment:
+      - H2_OPTIONS=-ifNotExists
+    ports:
+      - "1521:1521"
+      - "8000:81"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093,INNER_DOCKER://kafka:9094,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INNER_DOCKER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INNER_DOCKER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    depends_on:
+      - kafka
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: 'kafka:9094'
+      JVM_OPTS: "-Xms32M -Xmx64M"
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  admin:
+    container_name: admin
+    ports:
+      - "8081:8081"
+    build:
+      context: .
+      dockerfile: ./admin/Dockerfile
+      args:
+        - FILE_DIRECTORY=.
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker-admin
+    depends_on:
+      - redis
+      - kafka
+      - h2
+
+  service:
+    container_name: service
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: ./service/Dockerfile
+      args:
+        - FILE_DIRECTORY=.
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - redis
+      - kafka
+      - h2
+      - admin
