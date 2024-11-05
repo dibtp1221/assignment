@@ -1,22 +1,21 @@
 ## 실행방법
 2차 구현 (main 브랜치)
 docker, docker-compose 설치된 환경에서\
-`docker-compose up --build`
+`docker-compose up --build` 
 
 1차 구현 - 스프링 부트 서버 한대 (feature/simple 브랜치)
-java 17 설치
-`./gradlew build`
+java 17 설치 \
+`./gradlew build` \
 `java -jar build/libs/assignment-0.0.1-SNAPSHOT.jar`
 
 ## 실제 배포된 서버
-Kafdrop http://223.130.160.171:9000/
-어드민 http://223.130.160.171:8081/
-고객서비스 http://223.130.160.171:8080/
+Kafdrop http://223.130.160.171:9000/  \
+어드민 http://223.130.160.171:8081/  \
+고객서비스 http://223.130.160.171:8080/  
 
 ## 구현한 부분
-구현1,2,3
-구현4 - 상품 단건 수정
-구현에 대한 상세 설명 - PR
+구현1,2,3 \
+구현4 - 상품 단건 수정 
 
 ### 엔티티 객체 관계
 <img src="./images/엔티티 다이어그램.png" width="200">
@@ -34,7 +33,8 @@ Kafdrop http://223.130.160.171:9000/
 <img src="./images/2차 구성.png" width="500">
 
 트래픽 증가할 경우 예상하여 메시지 기반 EDA로 구성.\
-레디스 캐싱 추가.
+레디스 캐싱 추가. \
+https://github.com/dibtp1221/assignment/pull/2
 
 
 ## 기타 개발에 고려한 사항
@@ -59,7 +59,8 @@ Kafdrop http://223.130.160.171:9000/
 - 최저가, 최고가 업데이트 필요한지 여부 판단하여 처리
 
 ### 테스트
-1차에 fake 사용하여
+1차에 fake 사용하여 캐싱 처리 서비스 단위 테스트 \
+https://github.com/dibtp1221/assignment/pull/1
 
 ## 카프카, Redis 실행 화면
 <img src="./images/kafdrop.png" width="500">
@@ -91,6 +92,7 @@ PATCH http://223.130.160.171:8081/{itemId}/price\
 ## 유의점
 어드민 서버가 시작하면서 초기 데이터 세팅 (TestDataInit) 하고\
 카프카에 메시지 전송하는데 무슨 이유에서인지 원활히 컨슈머에서 처리가 안됨..\
-캐시 전체 업데이트 요청 메시지 발행 API
+
+테스트 용도 캐시 전체 업데이트 요청 메시지 발행 API 생성\
 POST http://223.130.160.171:8081/items/cache-all-cache
 
