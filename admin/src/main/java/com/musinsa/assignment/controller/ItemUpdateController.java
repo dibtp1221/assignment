@@ -29,4 +29,9 @@ public class ItemUpdateController {
         return new ResponseDto<>(result.success(), result.message(), result.result());
     }
 
+    @PostMapping("/cache-all-cache")
+    public ResponseDto<String> updateCacheAll() {
+        itemUpdateService.updateAllCache();
+        return new ResponseDto<>(true, "sucess", "전체 캐시 업데이트 메시지 전송 완료");
+    }
 }

@@ -63,6 +63,10 @@ public class ItemUpdateService {
         }
     }
 
+    public void updateAllCache() {
+        cacheMessageProducer.sendAllCacheUpdate();
+    }
+
     /**
      * 아이템 저장 및 캐시 업데이트
      */
