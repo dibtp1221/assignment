@@ -6,7 +6,7 @@ docker, docker-compose 설치된 환경에서\
 1차 구현 - 스프링 부트 서버 한대 (feature/simple 브랜치)
 java 17 설치
 `./gradlew build`
-`java -jar 
+`java -jar build/libs/assignment-0.0.1-SNAPSHOT.jar`
 
 ## 실제 배포된 서버
 Kafdrop http://223.130.160.171:9000/
