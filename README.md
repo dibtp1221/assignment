@@ -1,3 +1,7 @@
+## 실행방법
+docker, docker-compose 설치된 환경에서\
+`docker-compose up --build`
+
 ## 구현한 부분
 구현1,2,3
 구현4 - 상품 단건 수정
