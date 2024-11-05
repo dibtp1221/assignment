@@ -1,6 +1,17 @@
 ## 실행방법
+2차 구현 (main 브랜치)
 docker, docker-compose 설치된 환경에서\
 `docker-compose up --build`
+
+1차 구현 - 스프링 부트 서버 한대 (feature/simple 브랜치)
+java 17 설치
+`./gradlew build`
+`java -jar 
+
+## 실제 배포된 서버
+Kafdrop http://223.130.160.171:9000/
+어드민 http://223.130.160.171:8081/
+고객서비스 http://223.130.160.171:8080/
 
 ## 구현한 부분
 구현1,2,3
@@ -50,10 +61,36 @@ docker, docker-compose 설치된 환경에서\
 ### 테스트
 1차에 fake 사용하여
 
-## 실행 방법
-
 ## 카프카, Redis 실행 화면
 <img src="./images/kafdrop.png" width="500">
 <img src="./images/레디스캐시1.png" width="500">
 <img src="./images/레디스캐시2.png" width="500">
 <img src="./images/레디스캐시3.png" width="500">
+
+## API
+
+구현1 GET http://223.130.160.171:8080/categories/lowest-price-items  \
+구현2 GET http://223.130.160.171:8080/brands/lowest-total-price/items  \
+구현3 GET http://223.130.160.171:8080/categories/상의/extreme-price-items  \
+상품가격변경 \
+PATCH http://223.130.160.171:8081/items/price
+```json
+{
+    "category": "상의",
+    "brand": "H",
+    "price": 14000
+}
+```
+PATCH http://223.130.160.171:8081/{itemId}/price\
+```json
+{
+    "price": 14000
+}
+```
+
+## 유의점
+어드민 서버가 시작하면서 초기 데이터 세팅 (TestDataInit) 하고\
+카프카에 메시지 전송하는데 무슨 이유에서인지 원활히 컨슈머에서 처리가 안됨..\
+캐시 전체 업데이트 요청 메시지 발행 API
+POST http://223.130.160.171:8081/items/cache-all-cache
+
