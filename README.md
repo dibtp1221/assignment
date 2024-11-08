@@ -82,12 +82,6 @@ PATCH http://223.130.160.171:8081/items/price
     "price": 14000
 }
 ```
-PATCH http://223.130.160.171:8081/{itemId}/price\
-```json
-{
-    "price": 14000
-}
-```
 
 ## 유의점
 어드민 서버가 시작하면서 초기 데이터 세팅 (TestDataInit) 하고\
